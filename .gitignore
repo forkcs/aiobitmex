@@ -1,5 +1,5 @@
-idea/
-ipynb_checkpoints/
+.idea/
+.ipynb_checkpoints/
 venv/
 
 **/__pycache__/
