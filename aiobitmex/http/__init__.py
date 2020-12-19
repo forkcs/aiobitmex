@@ -1,10 +1,10 @@
-import datetime
+import asyncio
 import json
-import time
 
 import aiohttp
 
 from aiobitmex import constants
+from aiobitmex.auth import generate_auth_headers
 
 
 class BitmexHTTP:
@@ -45,12 +45,14 @@ class BitmexHTTP:
     async def _make_request(
             self,
             path: str,
+            verb: str,
             query: str = None,
-            postdict: dict = None,
+            json_body: dict = None,
             timeout: int = None,
-            verb: str = None,
             max_retries=None
     ) -> dict:
+
+        response = None
 
         url = self.base_url + path
 
