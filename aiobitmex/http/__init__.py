@@ -115,7 +115,12 @@ class BitmexHTTP:
                 await asyncio.sleep(to_sleep)
 
                 # Retry the request
-                return retry()
+                return await retry()
+
+            # BitMEX is downtime now, just wait and retry
+            elif response.status == 503:
+                await asyncio.sleep(2.5)
+                return await retry()
 
         except aiohttp.ServerTimeoutError:
             # Timeout, re-run this request
