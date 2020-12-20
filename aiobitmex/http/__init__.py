@@ -42,9 +42,6 @@ class BitmexHTTP:
         self.session.headers.update({'content-type': 'application/json'})
         self.session.headers.update({'accept': 'application/json'})
 
-    def __del__(self):
-        await self.exit()
-
     async def exit(self):
         await self.session.close()
 
