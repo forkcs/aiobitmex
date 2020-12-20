@@ -90,36 +90,13 @@ class BitmexHTTP:
             response.raise_for_status()
 
         except aiohttp.ClientResponseError as e:
-            if response is None:
-                raise e
+            message = e.message.lower()
 
             if response.status == 400:
-                pass
-
-                # Duplicate clOrdID: that's fine, probably a deploy, go get the order(s) and return it
-                # if 'duplicate clordid' in message:
-                #     orders = postdict['orders'] if 'orders' in postdict else postdict
-                #
-                #     IDs = json.dumps({'clOrdID': [order['clOrdID'] for order in orders]})
-                #     orderResults = await self._make_request('/order', query={'filter': IDs}, verb='GET')
-                #
-                #     for i, order in enumerate(orderResults):
-                #         if (
-                #                 order['orderQty'] != abs(postdict['orderQty']) or
-                #                 order['side'] != ('Buy' if postdict['orderQty'] > 0 else 'Sell') or
-                #                 order['price'] != postdict['price'] or
-                #                 order['symbol'] != postdict['symbol']):
-                #             raise Exception(
-                #                 'Attempted to recover from duplicate clOrdID, but order returned from API ' +
-                #                 'did not match POST.\nPOST data: %s\nReturned order: %s' % (
-                #                     json.dumps(orders[i]), json.dumps(order)))
-                #     # All good
-                #     return orderResults
-                #
-                # elif 'insufficient available balance' in message:
-                #     # logger.error('Account out of funds. The message: %s' % error['message'])
-                #     # exit_or_throw(Exception('Insufficient Funds'))
-                #     pass
+                if 'insufficient available balance' in message:
+                    # TODO: log message and raise appropriate exception
+                    await self.exit()
+                raise
 
         except aiohttp.ServerTimeoutError:
             # Timeout, re-run this request
