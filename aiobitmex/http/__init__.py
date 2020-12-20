@@ -99,6 +99,11 @@ class BitmexHTTP:
                     await self.exit()
                 raise
 
+            # 401, unauthorized; this is fatal, always exit
+            elif response.status == 401:
+                # TODO: log message and raise appropriate exception
+                await self.exit()
+
             # 429, ratelimit; cancel orders and wait until X-RateLimit-Reset
             elif response.status == 429:
                 # Figure out how long we need to wait
