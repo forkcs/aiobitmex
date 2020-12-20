@@ -1,5 +1,6 @@
 import asyncio
 import json
+import time
 
 import aiohttp
 
@@ -97,6 +98,19 @@ class BitmexHTTP:
                     # TODO: log message and raise appropriate exception
                     await self.exit()
                 raise
+
+            # 429, ratelimit; cancel orders and wait until X-RateLimit-Reset
+            elif response.status == 429:
+                # Figure out how long we need to wait
+                ratelimit_reset = response.headers['X-RateLimit-Reset']
+
+                to_sleep = int(ratelimit_reset) - int(time.time())
+                # TODO: We're ratelimited, and we may be waiting for a long time. Cancel orders.
+
+                await asyncio.sleep(to_sleep)
+
+                # Retry the request
+                return retry()
 
         except aiohttp.ServerTimeoutError:
             # Timeout, re-run this request
