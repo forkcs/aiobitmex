@@ -56,6 +56,10 @@ class BitmexHTTP:
     async def get_urgent_announcement(self) -> Union[List[dict], dict]:
         return await self._make_request(path='/announcement/urgent', verb='GET')
 
+    async def get_api_keys(self, reverse: bool = False) -> Union[List[dict], dict]:
+        params = {'reverse': reverse}
+        return await self._make_request(path='/apiKey', verb='GET', query=params)
+
     async def _make_request(
             self,
             path: str,
