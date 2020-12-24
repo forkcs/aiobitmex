@@ -44,7 +44,7 @@ class BitmexHTTP:
         self.session.headers.update({'content-type': 'application/json'})
         self.session.headers.update({'accept': 'application/json'})
 
-    async def exit(self):
+    async def exit(self) -> None:
         await self.session.close()
 
     async def get_announcement(self, columns: List[str] = None) -> Union[List[dict], dict]:
