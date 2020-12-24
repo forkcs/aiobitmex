@@ -1,6 +1,7 @@
 import asyncio
 import json
 import time
+from typing import List, Union
 
 import aiohttp
 
@@ -46,6 +47,15 @@ class BitmexHTTP:
     async def exit(self):
         await self.session.close()
 
+    async def get_announcement(self, columns: List[str] = None) -> Union[List[dict], dict]:
+        params = None
+        if columns is not None:
+            params = {'columns': columns}
+        return await self._make_request(path='/announcement', verb='GET', query=params)
+
+    async def get_urgent_announcement(self) -> Union[List[dict], dict]:
+        return await self._make_request(path='/announcement/urgent', verb='GET')
+
     async def _make_request(
             self,
             path: str,
@@ -54,7 +64,7 @@ class BitmexHTTP:
             json_body: dict = None,
             timeout: int = None,
             max_retries=None
-    ) -> dict:
+    ) -> Union[List[dict], dict]:
 
         response = None
 
