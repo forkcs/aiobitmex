@@ -47,6 +47,12 @@ class BitmexHTTP:
     async def exit(self) -> None:
         await self.session.close()
 
+    # START ENDPOINTS #
+
+    ################
+    # Announcement #
+    ################
+
     async def get_announcement(self, columns: List[str] = None) -> Union[List[dict], dict]:
         params = None
         if columns is not None:
@@ -56,9 +62,17 @@ class BitmexHTTP:
     async def get_urgent_announcement(self) -> Union[List[dict], dict]:
         return await self._make_request(path='/announcement/urgent', verb='GET')
 
+    ###########
+    # API Key #
+    ###########
+
     async def get_api_keys(self, reverse: bool = False) -> Union[List[dict], dict]:
         params = {'reverse': reverse}
         return await self._make_request(path='/apiKey', verb='GET', query=params)
+
+    ########
+    # Chat #
+    ########
 
     async def get_chat(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -72,17 +86,33 @@ class BitmexHTTP:
     async def get_chat_connected(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    #############
+    # Execution #
+    #############
+
     async def get_execution(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
     async def get_trade_history(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    ###########
+    # Funding #
+    ###########
+
     async def get_funding(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    ########################
+    # Global Notifications #
+    ########################
+
     async def get_global_notification(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    ##############
+    # Instrument #
+    ##############
 
     async def get_instrument(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -102,8 +132,16 @@ class BitmexHTTP:
     async def get_indices(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    #############
+    # Insurance #
+    #############
+
     async def get_insurance(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    ###############
+    # Leaderboard #
+    ###############
 
     async def get_leaderboard(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -111,8 +149,16 @@ class BitmexHTTP:
     async def get_leaderboard_name(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    ###############
+    # Liquidation #
+    ###############
+
     async def get_liquidation(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    #########
+    # Order #
+    #########
 
     async def get_order(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -141,8 +187,16 @@ class BitmexHTTP:
     async def close_position(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    #############
+    # OrderBook #
+    #############
+
     async def get_l2_orderbook(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    ############
+    # Position #
+    ############
 
     async def get_position(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -159,11 +213,19 @@ class BitmexHTTP:
     async def transfer_margin(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    #########
+    # Quote #
+    #########
+
     async def get_quote(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
     async def get_quote_bucketed(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    ##########
+    # Schema #
+    ##########
 
     async def get_schema(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -171,8 +233,16 @@ class BitmexHTTP:
     async def get_websocket_schema(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    ##############
+    # Settlement #
+    ##############
+
     async def get_settlement(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    #########
+    # Stats #
+    #########
 
     async def get_stats(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -183,11 +253,19 @@ class BitmexHTTP:
     async def get_stats_history_usd(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    #########
+    # Trade #
+    #########
+
     async def get_trade(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
     async def get_trade_bucketed(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    ########
+    # User #
+    ########
 
     async def get_user(self) -> Union[List[dict], dict]:
         raise NotImplemented
@@ -249,8 +327,14 @@ class BitmexHTTP:
     async def get_wallet_summary(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
+    #############
+    # UserEvent #
+    #############
+
     async def get_user_event(self) -> Union[List[dict], dict]:
         raise NotImplemented
+
+    # END ENDPOINTS #
 
     async def _make_request(
             self,
