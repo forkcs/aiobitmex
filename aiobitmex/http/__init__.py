@@ -60,6 +60,198 @@ class BitmexHTTP:
         params = {'reverse': reverse}
         return await self._make_request(path='/apiKey', verb='GET', query=params)
 
+    async def get_chat(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_chat(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_chat_channels(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_chat_connected(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_execution(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_trade_history(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_funding(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_global_notification(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_instrument(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_active_instrument(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_active_and_indices(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_active_intervals(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_composite_index(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_indices(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_insurance(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_leaderboard(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_leaderboard_name(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_liquidation(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_order(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def put_order(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_order(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def delete_order(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def delete_all_orders(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def put_bulk_orders(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_bulk_orders(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def cancel_all_after(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def close_position(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_l2_orderbook(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_position(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_position_isolate(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_leverage(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_risklimit(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def transfer_margin(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_quote(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_quote_bucketed(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_schema(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_websocket_schema(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_settlement(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_stats(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_stats_history(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_stats_history_usd(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_trade(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_trade_bucketed(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_user(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_affilate_status(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def cancel_withdrawal(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def check_referral_code(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_user_commission(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_communication_token(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def confirm_email(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def confirm_withdrawal(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_deposit_address(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_execution_history(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def logout(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_margin(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_min_withdrawal_fee(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def post_preferences(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_quote_fill_ratio(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_quote_value_ratio(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def request_withdrawal(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_wallet(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_wallet_history(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_wallet_summary(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
+    async def get_user_event(self) -> Union[List[dict], dict]:
+        raise NotImplemented
+
     async def _make_request(
             self,
             path: str,
