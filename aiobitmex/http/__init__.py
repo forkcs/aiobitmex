@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import json
 import time
 from typing import List, Union
@@ -90,8 +91,40 @@ class BitmexHTTP:
     # Execution #
     #############
 
-    async def get_execution(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def get_executions(
+            self,
+            symbol: str = None,
+            _filter: dict = None,
+            columns: List[str] = None,
+            count: int = 100,
+            start: int = None,
+            reverse: bool = False,
+            start_time: datetime.datetime = None,
+            end_time: datetime.datetime = None
+    ) -> List[dict]:
+        """Implements GET /execution."""
+
+        params = {}
+
+        if symbol is None:
+            symbol = self.symbol
+
+        params['symbol'] = symbol
+        params['count'] = count
+        params['reverse'] = reverse
+
+        if _filter is not None:
+            params['filter'] = _filter
+        if columns is not None:
+            params['columns'] = columns
+        if start is not None:
+            params['start'] = start
+        if start_time is not None:
+            params['startTime'] = start_time
+        if end_time is not None:
+            params['endTime'] = end_time
+
+        return await self._make_request(path='/execution', verb='GET', query=params)
 
     async def get_trade_history(self) -> Union[List[dict], dict]:
         raise NotImplemented
