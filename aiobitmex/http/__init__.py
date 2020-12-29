@@ -504,6 +504,5 @@ class BitmexHTTP:
             return await retry()
 
         self.retries = 0
-        response.release()
 
         return await response.json()
