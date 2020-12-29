@@ -94,15 +94,15 @@ class BitmexHTTP:
 
     async def get_executions(
             self,
-            symbol: str = None,
-            _filter: dict = None,
-            columns: List[str] = None,
+            symbol: Optional[str] = None,
+            _filter: Optional[dict] = None,
+            columns: Optional[List[str]] = None,
             count: int = 100,
-            start: int = None,
+            start: Optional[int] = None,
             reverse: bool = False,
-            start_time: datetime.datetime = None,
-            end_time: datetime.datetime = None
-    ) -> List[dict]:
+            start_time: Optional[datetime.datetime] = None,
+            end_time: Optional[datetime.datetime] = None
+    ) -> Union[List[dict], dict]:
         """Implements GET /execution."""
 
         params = {}
