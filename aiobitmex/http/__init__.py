@@ -2,7 +2,8 @@ import asyncio
 import datetime
 import json
 import time
-from typing import List, Union
+from decimal import Decimal
+from typing import List, Union, Optional
 
 import aiohttp
 
@@ -199,8 +200,57 @@ class BitmexHTTP:
     async def put_order(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
-    async def post_order(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def post_order(
+            self,
+            symbol: str = None,
+            side: Optional[str] = None,
+            order_qty: Optional[int] = None,
+            price: Optional[Decimal] = None,
+            display_qty: Optional[int] = None,
+            stop_px: Optional[Decimal] = None,
+            clordid: Optional[str] = None,
+            peg_offset_value: Optional[Decimal] = None,
+            peg_price_type: Optional[str] = None,
+            ord_type: Optional[str] = None,
+            time_in_force: Optional[str] = None,
+            exec_inst: Optional[str] = None,
+            text: Optional[str] = None
+    ) -> dict:
+        """Implements POST /order."""
+
+        body = {}
+
+        if symbol is None:
+            symbol = self.symbol
+
+        body['symbol'] = symbol
+
+        if side is not None:
+            body['side'] = side
+        if order_qty is not None:
+            body['orderQty'] = order_qty
+        if price is not None:
+            body['price'] = price
+        if display_qty is not None:
+            body['displayQty'] = display_qty
+        if stop_px is not None:
+            body['stopPx'] = stop_px
+        if clordid is not None:
+            body['clOrdID'] = clordid
+        if peg_offset_value is not None:
+            body['pegOffsetValue'] = peg_offset_value
+        if peg_price_type is not None:
+            body['pegPriceType'] = peg_price_type
+        if ord_type is not None:
+            body['ordType'] = ord_type
+        if time_in_force is not None:
+            body['timeInForce'] = time_in_force
+        if exec_inst is not None:
+            body['execInst'] = exec_inst
+        if text is not None:
+            body['text'] = text
+
+        return await self._make_request('/order', 'POST', json_body=body, max_retries=0)
 
     async def delete_order(self) -> Union[List[dict], dict]:
         raise NotImplemented
