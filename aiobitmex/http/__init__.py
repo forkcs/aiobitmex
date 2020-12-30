@@ -439,7 +439,7 @@ class BitmexHTTP:
         if max_retries is None:
             max_retries = 0
 
-        async def retry() -> dict:
+        async def retry() -> Union[List[dict], dict]:
             self.retries += 1
             if self.retries > max_retries:
                 raise Exception('Max retries on {} hit, raising.'.format(path, data))
