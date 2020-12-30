@@ -1,7 +1,6 @@
 import hashlib
 import hmac
 import time
-from typing import AnyStr
 from urllib.parse import urlparse
 
 
@@ -13,7 +12,7 @@ def generate_expires(offset: int = None) -> int:
     return int(time.time() + offset)
 
 
-def generate_signature(secret: str, verb: str, url: str, expires: int, data: AnyStr) -> str:
+def generate_signature(secret: str, verb: str, url: str, expires: int, data: str) -> str:
     """Generates an API signature.
 
     A signature is HMAC_SHA256(secret, verb + path + nonce + data), hex encoded.
@@ -36,16 +35,13 @@ def generate_signature(secret: str, verb: str, url: str, expires: int, data: Any
     if parsed_url.query:
         path = path + '?' + parsed_url.query
 
-    if isinstance(data, (bytes, bytearray)):
-        data = data.decode('utf8')
-
     message = verb + path + str(expires) + data
     signature = hmac.new(bytes(secret, 'utf8'), bytes(message, 'utf8'), digestmod=hashlib.sha256).hexdigest()
 
     return signature
 
 
-def generate_auth_headers(api_key: str, api_secret: str, verb: str, url: str, data: AnyStr) -> dict:
+def generate_auth_headers(api_key: str, api_secret: str, verb: str, url: str, data: str) -> dict:
     """Generate ready-to-use headers to BitMEX API authentication. """
 
     headers = {}
