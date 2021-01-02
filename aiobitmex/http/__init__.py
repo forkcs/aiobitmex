@@ -255,8 +255,10 @@ class BitmexHTTP:
     async def delete_order(self) -> Union[List[dict], dict]:
         raise NotImplemented
 
-    async def delete_all_orders(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def cancel_all_orders(self) -> List[dict]:
+        """Implements DELETE /order/all."""
+
+        return await self._make_request('/order/all', 'DELETE', max_retries=3)
 
     async def put_bulk_orders(self) -> Union[List[dict], dict]:
         raise NotImplemented
