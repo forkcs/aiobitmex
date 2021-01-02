@@ -431,8 +431,7 @@ class BitmexHTTP:
             max_retries=None
     ) -> Union[List[dict], dict]:
 
-        response = None
-
+        # TODO: join url parts more safely and properly
         url = self.base_url + path
 
         if timeout is None:
@@ -447,64 +446,64 @@ class BitmexHTTP:
                 raise Exception('Max retries on {} hit, raising.'.format(path, data))
             return await self._make_request(path, query, json_body, timeout, verb, max_retries)
 
-        try:
-            # Auth
-            data = json.dumps(json_body) if json_body is not None else ''
+        # Auth
+        data = json.dumps(json_body) if json_body is not None else ''
+        headers = generate_auth_headers(self.api_key, self.api_secret, verb, url, data)
 
-            headers = generate_auth_headers(self.api_key, self.api_secret, verb, url, data)
+        # Make the request
+        async with self.session.request(
+            method=verb,
+            url=url,
+            params=query,
+            headers=headers,
+            json=json_body,
+            timeout=timeout
+        ) as response:
+            try:
+                # Throw non-200 errors
+                response.raise_for_status()
 
-            # Make the request
-            response = await self.session.request(
-                method=verb,
-                url=url,
-                params=query,
-                headers=headers,
-                json=json_body,
-                timeout=timeout
-            )
-            # Throw non-200 errors
-            response.raise_for_status()
+            except aiohttp.ClientResponseError as e:
+                message = e.message.lower()
 
-        except aiohttp.ClientResponseError as e:
-            message = e.message.lower()
+                if response.status == 400:
+                    if 'insufficient available balance' in message:
+                        # TODO: log message and raise appropriate exception
+                        await self.exit()
+                    raise
 
-            if response.status == 400:
-                if 'insufficient available balance' in message:
+                # 401, unauthorized; this is fatal, always exit
+                elif response.status == 401:
                     # TODO: log message and raise appropriate exception
                     await self.exit()
-                raise
+                    raise
 
-            # 401, unauthorized; this is fatal, always exit
-            elif response.status == 401:
-                # TODO: log message and raise appropriate exception
-                await self.exit()
+                # 429, ratelimit; cancel orders and wait until X-RateLimit-Reset
+                elif response.status == 429:
+                    # Figure out how long we need to wait
+                    ratelimit_reset = response.headers['X-RateLimit-Reset']
 
-            # 429, ratelimit; cancel orders and wait until X-RateLimit-Reset
-            elif response.status == 429:
-                # Figure out how long we need to wait
-                ratelimit_reset = response.headers['X-RateLimit-Reset']
+                    to_sleep = int(ratelimit_reset) - int(time.time())
+                    # TODO: We're ratelimited, and we may be waiting for a long time. Cancel orders.
 
-                to_sleep = int(ratelimit_reset) - int(time.time())
-                # TODO: We're ratelimited, and we may be waiting for a long time. Cancel orders.
+                    await asyncio.sleep(to_sleep)
 
-                await asyncio.sleep(to_sleep)
+                    # Retry the request
+                    return await retry()
 
-                # Retry the request
+                # BitMEX is downtime now, just wait and retry
+                elif response.status == 503:
+                    await asyncio.sleep(2.5)
+                    return await retry()
+
+            except aiohttp.ServerTimeoutError:
+                # Timeout, re-run this request
                 return await retry()
 
-            # BitMEX is downtime now, just wait and retry
-            elif response.status == 503:
-                await asyncio.sleep(2.5)
+            except aiohttp.ClientConnectionError:
+                await asyncio.sleep(1)
                 return await retry()
 
-        except aiohttp.ServerTimeoutError:
-            # Timeout, re-run this request
-            return await retry()
+            self.retries = 0
 
-        except aiohttp.ClientConnectionError:
-            await asyncio.sleep(1)
-            return await retry()
-
-        self.retries = 0
-
-        return await response.json()
+            return await response.json()
