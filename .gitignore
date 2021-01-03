@@ -7,3 +7,7 @@ venv/
 tests/keys.txt
 
 **/.coverage
+
+build/
+dist/
+aiobitmex.egg-info/
