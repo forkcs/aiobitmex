@@ -229,8 +229,42 @@ class BitmexHTTP:
 
         return await self._make_request(path='/order', verb='GET', query=params)
 
-    async def put_order(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def amend_order(
+            self,
+            order_id: Optional[str] = None,
+            clordid: Optional[str] = None,
+            origclordid: Optional[str] = None,
+            order_qty: Optional[int] = None,
+            leaves_qty: Optional[int] = None,
+            price: Optional[Decimal] = None,
+            stop_px: Optional[Decimal] = None,
+            peg_offset_value: Optional[Decimal] = None,
+            text: Optional[str] = None
+    ) -> dict:
+        """Implements PUT /order."""
+
+        body = {}
+
+        if order_id is not None:
+            body['orderID'] = order_id
+        if clordid is not None:
+            body['clOrdID'] = clordid
+        if origclordid is not None:
+            body['origClOrdID'] = origclordid
+        if order_qty is not None:
+            body['orderQty'] = order_qty
+        if leaves_qty is not None:
+            body['leavesQty'] = leaves_qty
+        if price is not None:
+            body['price'] = price
+        if stop_px is not None:
+            body['stopPx'] = stop_px
+        if peg_offset_value is not None:
+            body['pegOffsetValue'] = peg_offset_value
+        if text is not None:
+            body['text'] = text
+
+        return await self._make_request('/order', 'PUT', json_body=body, max_retries=0)
 
     async def post_order(
             self,
