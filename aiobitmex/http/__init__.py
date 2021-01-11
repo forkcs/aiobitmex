@@ -194,8 +194,40 @@ class BitmexHTTP:
     # Order #
     #########
 
-    async def get_order(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def get_orders(
+            self,
+            symbol: Optional[str] = None,
+            _filter: Optional[dict] = None,
+            columns: Optional[List[str]] = None,
+            count: int = 100,
+            start: Optional[int] = None,
+            reverse: bool = False,
+            start_time: Optional[datetime.datetime] = None,
+            end_time: Optional[datetime.datetime] = None
+    ) -> List[dict]:
+        """Implements GET /order."""
+
+        params = {}
+
+        if symbol is None:
+            symbol = self.symbol
+
+        params['symbol'] = symbol
+        params['count'] = count
+        params['reverse'] = reverse
+
+        if _filter is not None:
+            params['filter'] = _filter
+        if columns is not None:
+            params['columns'] = columns
+        if start is not None:
+            params['start'] = start
+        if start_time is not None:
+            params['startTime'] = start_time
+        if end_time is not None:
+            params['endTime'] = end_time
+
+        return await self._make_request(path='/order', verb='GET', query=params)
 
     async def put_order(self) -> Union[List[dict], dict]:
         raise NotImplemented
