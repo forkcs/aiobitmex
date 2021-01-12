@@ -15,10 +15,11 @@ class BitmexHTTP:
     """Async BitMEX API Connector."""
 
     def __init__(
-            self, base_url: str = None,
-            symbol: str = None,
-            api_key: str = None,
-            api_secret: str = None,
+            self,
+            base_url: Optional[str] = None,
+            symbol: Optional[str] = None,
+            api_key: Optional[str] = None,
+            api_secret: Optional[str] = None,
             prefix='aiobitmex',
             timeout=5
     ) -> None:
@@ -268,7 +269,7 @@ class BitmexHTTP:
 
     async def post_order(
             self,
-            symbol: str = None,
+            symbol: Optional[str] = None,
             side: Optional[str] = None,
             order_qty: Optional[int] = None,
             price: Optional[Decimal] = None,
