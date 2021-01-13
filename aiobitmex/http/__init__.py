@@ -350,8 +350,38 @@ class BitmexHTTP:
 
         return await self._make_request('/order/bulk', 'PUT', json_body=body, max_retries=1)
 
-    async def close_position(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def bulk_post_orders(self, orders: List) -> List[dict]:
+        """Implements POST /order/bulk."""
+
+        body = {'orders': orders}
+
+        return await self._make_request('/order/bulk', 'POST', json_body=body, max_retries=1)
+
+    async def cancel_all_after(self, timeout: int) -> dict:
+        """Implements POST /order/cancelAllAfter."""
+
+        body = {'timeout': timeout}
+
+        return await self._make_request('/order/cancelAllAfter', 'POST', json_body=body, max_retries=1)
+
+    async def close_position(
+            self,
+            symbol: str = None,
+            price: Decimal = None
+    ) -> dict:
+        """Implements POST /order/closePosition."""
+
+        body = {}
+
+        if symbol is None:
+            symbol = self.symbol
+
+        body['symbol'] = symbol
+
+        if price is not None:
+            body['price'] = price
+
+        return await self._make_request('/order/closePosition', 'POST', json_body=body, max_retries=3)
 
     #############
     # OrderBook #
