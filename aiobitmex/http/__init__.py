@@ -319,8 +319,24 @@ class BitmexHTTP:
 
         return await self._make_request('/order', 'POST', json_body=body, max_retries=0)
 
-    async def delete_order(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def cancel_order(
+            self,
+            order_id: Optional[str] = None,
+            clordid: Optional[str] = None,
+            text: Optional[str] = None
+    ) -> List[dict]:
+        """Implements DELETE /order."""
+
+        body = {}
+
+        if order_id is not None:
+            body['orderID'] = order_id
+        if clordid is not None:
+            body['clOrdID'] = clordid
+        if text is not None:
+            body['text'] = text
+
+        return await self._make_request('/order', 'DELETE', max_retries=3)
 
     async def cancel_all_orders(self) -> List[dict]:
         """Implements DELETE /order/all."""
