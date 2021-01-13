@@ -343,14 +343,12 @@ class BitmexHTTP:
 
         return await self._make_request('/order/all', 'DELETE', max_retries=3)
 
-    async def put_bulk_orders(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+    async def bulk_amend_orders(self, orders: List) -> List[dict]:
+        """Implements PUT /order/bulk."""
 
-    async def post_bulk_orders(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+        body = {'orders': orders}
 
-    async def cancel_all_after(self) -> Union[List[dict], dict]:
-        raise NotImplemented
+        return await self._make_request('/order/bulk', 'PUT', json_body=body, max_retries=1)
 
     async def close_position(self) -> Union[List[dict], dict]:
         raise NotImplemented
