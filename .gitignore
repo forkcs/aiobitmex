@@ -11,3 +11,4 @@ tests/keys.txt
 build/
 dist/
 aiobitmex.egg-info/
+.eggs/
